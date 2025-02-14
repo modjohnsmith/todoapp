@@ -19,7 +19,7 @@ export function AddTodo() {
             await addTodo(text);
             setText("");
           } catch (error) {
-            setError('Failed to add todo');
+            setError("Failed to add todo");
             console.error(error);
           } finally {
             setIsLoading(false);
@@ -42,7 +42,7 @@ export function AddTodo() {
         disabled={isLoading}
         aria-busy={isLoading}
         className="px-4 py-2 text-white bg-blue-500 rounded-r hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-        {isLoading ? 'Adding...' : 'Add'}
+        {isLoading ? "Adding..." : "Add"}
       </button>
     </form>
   );

@@ -2,8 +2,9 @@ name: CodeRabbit Review
 
 on:
   pull_request:
-    branches:
-      - main # Change this to your default branch
+    types: [opened]
+permissions:
+  pull-requests: write
 
 jobs:
   code-review:
