@@ -13,6 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run CodeRabbit Review
-        uses: coderabbit-ai/ai-pr-review@v1
+        uses: coderabbit-ai/ai-pr-review@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
