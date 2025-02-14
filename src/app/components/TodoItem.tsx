@@ -15,9 +15,12 @@ export function TodoItem({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isToggling, setIsToggling] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <li className="flex items-center gap-2 p-3 border-b last:border-b-0" role="listitem">
+    <li
+      className="flex items-center gap-2 p-3 border-b last:border-b-0"
+      role="listitem">
       {error && <p className="text-red-500 text-sm">{error}</p>}
       <input
         type="checkbox"
@@ -28,14 +31,14 @@ export function TodoItem({
           try {
             await toggleTodo(id, e.target.checked);
           } catch (error) {
-            setError('Failed to update todo');
+            setError("Failed to update todo");
             console.error(error);
           } finally {
             setIsToggling(false);
           }
         }}
         disabled={isToggling || isDeleting}
-        aria-label={`Mark todo ${done ? 'incomplete' : 'complete'}`}
+        aria-label={`Mark todo ${done ? "incomplete" : "complete"}`}
         className="w-5 h-5 border-gray-300 rounded"
       />
       <span className={`flex-grow ${done ? "line-through text-gray-500" : ""}`}>
@@ -48,7 +51,7 @@ export function TodoItem({
           try {
             await deleteTodo(id);
           } catch (error) {
-            setError('Failed to delete todo');
+            setError("Failed to delete todo");
             console.error(error);
             setIsDeleting(false);
           }
@@ -56,7 +59,7 @@ export function TodoItem({
         disabled={isDeleting || isToggling}
         aria-label="Delete todo"
         className="px-2 py-1 text-sm text-red-500 hover:text-red-700 disabled:text-gray-400">
-        {isDeleting ? 'Deleting...' : 'Delete'}
+        {isDeleting ? "Deleting..." : "Delete"}
       </button>
     </li>
   );

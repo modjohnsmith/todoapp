@@ -6,7 +6,7 @@ import { addTodo } from "@/app/db/actions";
 export function AddTodo() {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <form
