@@ -1,0 +1,17 @@
+name: CodeRabbit Review
+
+on:
+  pull_request:
+    branches:
+      - main # Change this to your default branch
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run CodeRabbit Review
+        uses: coderabbit-ai/code-review-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
