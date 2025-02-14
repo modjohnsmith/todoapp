@@ -21,8 +21,6 @@ export function AddTodo() {
           } catch (error) {
             setError("Failed to add todo");
             console.error(error);
-          } finally {
-            setIsLoading(false);
           }
         }
       }}
