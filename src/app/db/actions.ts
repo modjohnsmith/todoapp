@@ -20,6 +20,14 @@ export async function toggleTodo(id: number, done: boolean) {
 }
 
 export async function deleteTodo(id: number) {
-  await db.delete(todo).where(eq(todo.id, id));
-  revalidatePath("/");
+  if (typeof id !== 'number' || id <= 0) {
+    throw new Error('Invalid todo id');
+  }
+  try {
+    await db.delete(todo).where(eq(todo.id, id));
+    revalidatePath("/");
+  } catch (error) {
+    console.error('Failed to delete todo:', error);
+    throw new Error('Failed to delete todo');
+  }
 }
