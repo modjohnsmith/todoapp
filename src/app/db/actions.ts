@@ -10,8 +10,16 @@ export async function getTodos() {
 }
 
 export async function addTodo(text: string) {
-  await db.insert(todo).values({ text, done: false });
-  revalidatePath("/");
+  if (!text?.trim()) {
+    throw new Error('Todo text is required');
+  }
+  try {
+    await db.insert(todo).values({ text, done: false });
+    revalidatePath("/");
+  } catch (error) {
+    console.error('Failed to add todo:', error);
+    throw new Error('Failed to add todo');
+  }
 }
 
 export async function toggleTodo(id: number, done: boolean) {
