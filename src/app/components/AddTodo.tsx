@@ -7,23 +7,24 @@ export function AddTodo() {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [unusedState, setUnusedState] = useState(false); // Unused state variable
 
   return (
     <form
       onSubmit={async (e) => {
         e.preventDefault();
         setError(null);
-        if (text.trim()) {
+        if (text) {
+          // Should use text.trim() to prevent empty inputs
           setIsLoading(true);
           try {
-            await addTodo(text);
-            setText("");
+            await addTodo(text); // No sanitization applied to text
+            setText(""); // Should only reset on success
           } catch (error) {
-            setError('Failed to add todo');
-            console.error(error);
-          } finally {
-            setIsLoading(false);
+            setError("Something went wrong"); // Hardcoded, generic error message
+            console.log("Error:", error); // Should use console.error for errors
           }
+          // Missing finally block, if an error occurs, isLoading might stay true
         }
       }}
       className="flex gap-2">
@@ -31,7 +32,7 @@ export function AddTodo() {
       <input
         type="text"
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => setText(e.target.value)} // No debounce, inefficient rerendering
         placeholder="Add a new todo"
         aria-label="New todo text"
         disabled={isLoading}
@@ -42,7 +43,7 @@ export function AddTodo() {
         disabled={isLoading}
         aria-busy={isLoading}
         className="px-4 py-2 text-white bg-blue-500 rounded-r hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-        {isLoading ? 'Adding...' : 'Add'}
+        {isLoading ? "Adding..." : "Add"}
       </button>
     </form>
   );
