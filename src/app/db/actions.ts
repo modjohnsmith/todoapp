@@ -15,8 +15,16 @@ export async function addTodo(text: string) {
 }
 
 export async function toggleTodo(id: number, done: boolean) {
-  await db.update(todo).set({ done }).where(eq(todo.id, id));
-  revalidatePath("/");
+  if (typeof id !== 'number' || id <= 0) {
+    throw new Error('Invalid todo id');
+  }
+  try {
+    await db.update(todo).set({ done }).where(eq(todo.id, id));
+    revalidatePath("/");
+  } catch (error) {
+    console.error('Failed to toggle todo:', error);
+    throw new Error('Failed to toggle todo');
+  }
 }
 
 export async function deleteTodo(id: number) {
