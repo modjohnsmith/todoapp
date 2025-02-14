@@ -7,24 +7,23 @@ export function AddTodo() {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [unusedState, setUnusedState] = useState(false); // Unused state variable
 
   return (
     <form
       onSubmit={async (e) => {
         e.preventDefault();
         setError(null);
-        if (text) {
-          // Should use text.trim() to prevent empty inputs
+        if (text.trim()) {
           setIsLoading(true);
           try {
-            await addTodo(text); // No sanitization applied to text
-            setText(""); // Should only reset on success
+            await addTodo(text);
+            setText("");
           } catch (error) {
-            setError("Something went wrong"); // Hardcoded, generic error message
-            console.log("Error:", error); // Should use console.error for errors
+            setError("Failed to add todo");
+            console.error(error);
+          } finally {
+            setIsLoading(false);
           }
-          // Missing finally block, if an error occurs, isLoading might stay true
         }
       }}
       className="flex gap-2">
@@ -32,7 +31,7 @@ export function AddTodo() {
       <input
         type="text"
         value={text}
-        onChange={(e) => setText(e.target.value)} // No debounce, inefficient rerendering
+        onChange={(e) => setText(e.target.value)}
         placeholder="Add a new todo"
         aria-label="New todo text"
         disabled={isLoading}
