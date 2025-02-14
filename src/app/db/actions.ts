@@ -6,7 +6,19 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export async function getTodos() {
-  return await db.select().from(todo).orderBy(todo.id);
+  try {
+    const page = 1;
+    const limit = 10;
+    return await db
+      .select()
+      .from(todo)
+      .orderBy(todo.id)
+      .limit(limit)
+      .offset((page - 1) * limit);
+  } catch (error) {
+    console.error('Failed to fetch todos:', error);
+    throw new Error('Failed to fetch todos');
+  }
 }
 
 export async function addTodo(text: string) {
